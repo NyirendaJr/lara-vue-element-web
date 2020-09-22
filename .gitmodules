@@ -1,6 +1,3 @@
-[submodule "admin"]
-	path = admin
-	url = https://github.com/NyirendaJr/lara-vue-element-web.git
 [submodule "resources/frontend/admin-panel"]
 	path = resources/frontend/admin-panel
 	url = https://github.com/NyirendaJr/lara-vue-element-web-admin.git
