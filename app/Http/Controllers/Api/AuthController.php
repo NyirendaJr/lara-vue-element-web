@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File AuthController.php
  *
@@ -6,6 +7,7 @@
  * @package Laravue
  * @version 1.0
  */
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\UserResource;
@@ -21,30 +23,35 @@ use Illuminate\Support\Facades\Auth;
  */
 class AuthController extends BaseController
 {
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function login(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
-        if (!Auth::attempt($credentials)) {
-            return response()->json(new JsonResponse([], 'login_error'), Response::HTTP_UNAUTHORIZED);
-        }
-
-        $user = $request->user();
-
-        return response()->json(new JsonResponse(new UserResource($user)), Response::HTTP_OK);
+  /**
+   * @param Request $request
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function login(Request $request)
+  {
+    $credentials = $request->only('email', 'password');
+    if (!Auth::attempt($credentials)) {
+      return response()->json(new JsonResponse([], 'login_error'), Response::HTTP_UNAUTHORIZED);
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function logout(Request $request)
-    {
-        Auth::guard('web')->logout();
-        return response()->json((new JsonResponse())->success([]), Response::HTTP_OK);
-    }
+    $user = $request->user();
+    $token = $user->createToken('laravue');
 
+    return response()->json(new UserResource($user), Response::HTTP_OK)->header('Authorization', $token->plainTextToken);
+  }
+
+  /**
+   * @param Request $request
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function logout(Request $request)
+  {
+    Auth::guard('web')->logout();
+    return response()->json((new JsonResponse())->success([]), Response::HTTP_OK);
+  }
+
+  public function user()
+  {
+    return new UserResource(Auth::user());
+  }
 }
