@@ -13,10 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::group(['middleware' => 'web'], function () {
-    Route::get(env('LARAVUE_PATH'), 'LaravueController@index')->where('any', '.*')->name('laravue');
-});
+// Route::group(['middleware' => 'web'], function () {
+//     Route::get(env('LARAVUE_PATH'), 'LaravueController@index')->where('any', '.*')->name('laravue');
+// });
+
+// For admin application
+Route::get('/admin{any}', 'FrontendController@admin')->where('any', '.*');
+// For public application
+Route::any('/{any}', 'FrontendController@app')->where('any', '^(?!api).*$');
