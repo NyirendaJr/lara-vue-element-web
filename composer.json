@@ -27,7 +27,7 @@
     "laravel/sanctum": "^2.1",
     "laravel/tinker": "^2.0",
     "spatie/laravel-permission": "^3.0",
-    "laravel/telescope": "^3.0"
+    "laravel/telescope": "^3.5"
   },
   "require-dev": {
     "facade/ignition": "^2.0",
